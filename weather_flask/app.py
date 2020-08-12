@@ -45,7 +45,8 @@ class WeatherData(Resource):
         return data_point, 201
 
     def get(self):
-        return {'data': 'goes here'}
+	all_data = DataPoint.select()
+        return all_data
 
 class WeatherDataFiltered(Resource):
     def get(self, start_date, end_date):
