@@ -46,8 +46,11 @@ class WeatherData(Resource):
         return data_point, 201
 
     def get(self):
-        all_data = DataPoint.select().get()
-        return jsonify(all_data)
+        try:
+            all_data = DataPoint.select().get()
+            return jsonify(all_data)
+        except DataPoint.DoesNotExist as e:
+            return {'error': 'that does not exist'}
 
 class WeatherDataFiltered(Resource):
     def get(self, start_date, end_date):
