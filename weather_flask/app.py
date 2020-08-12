@@ -38,9 +38,9 @@ class WeatherData(Resource):
                     temperature = data_point['temperature'],
                     humidity = data_point['humidity'],
                     battery = data_point['battery'])
-            logging.debug('Created record: ' + datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M%S.%f')
+            logging.debug('Created record: ' + datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M%S.%f'))
         except IntegrityError as e:
-            logging.debug('Failed to add record. {} {}'.format(', '.join(map(str, data_point)), datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M%S.%f')
+            logging.debug('Failed to add record. {} {}'.format(', '.join(map(str, data_point)), datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M%S.%f')))
             return 500
         return data_point, 201
 
