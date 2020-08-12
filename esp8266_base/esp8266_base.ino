@@ -3,9 +3,9 @@
 #include <ESP8266HTTPClient.h>
 
 const int dhtPin = 14;
-const char* ssid = "" // Add network ID
-const char* password = "" // Add password
-const char* http_server = "http://" // Add server IP address
+const char* ssid = ""; // Add network ID
+const char* password = ""; // Add password
+const char* http_server = "http://"; // Add server IP address
 
 DHTesp dht;
 HTTPClient http;
