@@ -19,11 +19,11 @@ logging.debug('Starting up at '.format(datetime.strftime(datetime.now(), '%Y-%m-
 app = Flask(__name__)
 api = Api(app)
 
-parser = reqparse.RequestParser()
-parser.add_argument('temperature', type=float, help="Temperature data float")
-parser.add_argument('humidity', type=float, help="Humidity data float")
-parser.add_argument('battery', type=float, help="Battery level float")
-args = parser.parse_args()
+#parser = reqparse.RequestParser()
+#parser.add_argument('temperature', type=float, help="Temperature data float")
+#parser.add_argument('humidity', type=float, help="Humidity data float")
+#parser.add_argument('battery', type=float, help="Battery level float")
+#args = parser.parse_args()
 
 # Receive temperature and humidity data
 class WeatherData(Resource):
@@ -47,13 +47,12 @@ class WeatherData(Resource):
     def get(self):
         return {'data': 'goes here'}
 
-    def get_filtered(self, start_date, end_date):
+class WeatherDataFiltered(Resource):
+    def get(self, start_date, end_date):
+        return {'data': 'goes here', 'start_date': start_date, 'end_date': end_date}
 
-        return {'data': 'goes here'}
-
-api.add_resource(WeatherData, '/add/<flot:temperature>/<float:humidity>/<float:battery>')
-api.add_resource(get_all_data, '/all/')
-api.add_resource(get_filter_data, '/filter/<string:start_date>/<string:end_date>')
+api.add_resource(WeatherData, '/<floot:temperature>/<float:humidity>/<float:battery>')
+api.add_resource(WeatherDataFiltered, '/filter/<string:start_date>/<string:end_date>')
 
 if __name__ == '__main__':
     try:
