@@ -34,9 +34,9 @@ class WeatherData(Resource):
         
         try:
             new_data_point = DataPoint.create(
-                    created = datetime.now()
-                    temperature = data_point['temperature']
-                    humidity = data_point['humidity']
+                    created = datetime.now(),
+                    temperature = data_point['temperature'],
+                    humidity = data_point['humidity'],
                     battery = data_point['battery'])
             logging.debug('Created record: ' + datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M%S.%f')
         except IntegrityError as e:
