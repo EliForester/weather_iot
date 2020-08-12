@@ -27,17 +27,17 @@ api = Api(app)
 
 # Receive temperature and humidity data
 class WeatherData(Resource):
-    def put(self, temperature, humidity, battery):
+    def put(self, temperature, humidity):
         data_point['temperature'] = request.form['temperature']
         data_point['humidity'] = request.form['humidity']
-        data_point['battery'] = request.form['battery']
+        #data_point['battery'] = request.form['battery']
         
         try:
             new_data_point = DataPoint.create(
                     created = datetime.now(),
                     temperature = data_point['temperature'],
                     humidity = data_point['humidity'],
-                    battery = data_point['battery'])
+                    #battery = data_point['battery'])
             logging.debug('Created record: ' + datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M%S.%f'))
         except IntegrityError as e:
             logging.debug('Failed to add record. {} {}'.format(', '.join(map(str, data_point)), datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M%S.%f')))
@@ -51,7 +51,7 @@ class WeatherDataFiltered(Resource):
     def get(self, start_date, end_date):
         return {'data': 'goes here', 'start_date': start_date, 'end_date': end_date}
 
-api.add_resource(WeatherData, '/', '/<float:temperature>/<float:humidity>/<float:battery>')
+api.add_resource(WeatherData, '/', '/<float:temperature>/<float:humidity>')
 api.add_resource(WeatherDataFiltered, '/filter/<string:start_date>/<string:end_date>')
 
 if __name__ == '__main__':
