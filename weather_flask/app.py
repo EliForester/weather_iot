@@ -51,7 +51,7 @@ class WeatherDataFiltered(Resource):
     def get(self, start_date, end_date):
         return {'data': 'goes here', 'start_date': start_date, 'end_date': end_date}
 
-api.add_resource(WeatherData, '/<float:temperature>/<float:humidity>/<float:battery>')
+api.add_resource(WeatherData, '/', '/<float:temperature>/<float:humidity>/<float:battery>')
 api.add_resource(WeatherDataFiltered, '/filter/<string:start_date>/<string:end_date>')
 
 if __name__ == '__main__':
