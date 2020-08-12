@@ -1,9 +1,11 @@
 import os
 import logging
+import json
 from datetime import datetime
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
 from peewee import OperationalError
+from playhouse.shortcuts import model_to_dict
 
 from models import DataPoint
 
@@ -46,7 +48,8 @@ class WeatherData(Resource):
 
     def get(self):
         all_data = DataPoint.select()
-        return all_data
+        json_data = json.dumps(model_to_dict(all_data))
+        return json_data
 
 class WeatherDataFiltered(Resource):
     def get(self, start_date, end_date):
