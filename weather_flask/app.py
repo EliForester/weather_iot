@@ -13,8 +13,8 @@ else:
     logging_path = os.path.expanduser('~')
 
 # Set up logging
-logging.basicConfig(filename=os.path.join(logging_path, 'weather_monitor.log', level=logging.DEBUG)
-logging.debug('Starting up at '.format(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M%S.%f')
+logging.basicConfig(filename=os.path.join(logging_path, 'weather_monitor.log', level=logging.DEBUG))
+logging.debug('Starting up at '.format(datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M%S.%f')))
 
 app = Flask(__name__)
 api = Api(app)
