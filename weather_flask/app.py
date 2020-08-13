@@ -5,7 +5,7 @@ from flask import Flask, jsonify
 from flask_restful import Resource, Api
 from peewee import OperationalError
 from playhouse.shortcuts import model_to_dict
-from marshmallow import Schema, fields
+from marshmallow import Schema, fields, ValidationError
 
 from models import DataPoint
 
