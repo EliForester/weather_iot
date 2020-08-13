@@ -38,7 +38,9 @@ void loop(){
   if(WiFi.status()== WL_CONNECTED){
     http.begin(http_server);
     http.addHeader("Content-Type", "application/json");
-    int httpResponseCode = http.PUT("Putting data");
+ 
+    int httpResponseCode = http.POST("{\"temperature\":temperature,\"humidity\":humidity}");
+    #int httpResponseCode = http.POST("Putting data");
     if(httpResponseCode>0){
       // handle server response
     }

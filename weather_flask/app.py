@@ -2,11 +2,22 @@ import os
 import logging
 from datetime import datetime
 from flask import Flask, jsonify
-from flask_restful import Resource, Api, reqparse
+from flask_restful import Resource, Api
 from peewee import OperationalError
 from playhouse.shortcuts import model_to_dict
+from marshmallow import Schema, fields
 
 from models import DataPoint
+
+
+class DataPointSchema(Schema):
+    temperature = fields.Float()
+    humidity = fields.Float()
+
+    @post_load
+    def make_datapoint(self, data, **kwargs):
+        return DataPoint(**data)
+
 
 if os.environ['APP_PATH']:
     logging_path = os.environ['APP_PATH']
@@ -20,26 +31,23 @@ logging.debug('Starting up at '.format(datetime.strftime(datetime.now(), '%Y-%m-
 app = Flask(__name__)
 api = Api(app)
 
-#parser = reqparse.RequestParser()
-#parser.add_argument('temperature', type=float, help="Temperature data float")
-#parser.add_argument('humidity', type=float, help="Humidity data float")
-#parser.add_argument('battery', type=float, help="Battery level float")
-#args = parser.parse_args()
 
 # Receive temperature and humidity data
 class WeatherData(Resource):
-    def put(self, temperature, humidity):
-        data_point['temperature'] = request.form['temperature']
-        data_point['humidity'] = request.form['humidity']
-        #data_point['battery'] = request.form['battery']
+    def post(self, temperature, humidity):
+        json_data = request.get_json()
         
         try:
+            data = DataPointSchema(json_data)
+            new_dat_point
             new_data_point = DataPoint.create(
                     created = datetime.now(),
-                    temperature = data_point['temperature'],
-                    humidity = data_point['humidity'])
-                    #battery = data_point['battery'])
+                    temperature = data['temperature'],
+                    humidity = data['humidity'])
             logging.debug('Created record: ' + datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M%S.%f'))
+        except ValidationError as e:
+            logging.debug('Validation error ', e.messages, datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M%S.%f'))
+            return e.messages, 422
         except IntegrityError as e:
             logging.debug('Failed to add record. {} {}'.format(', '.join(map(str, data_point)), datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M%S.%f')))
             return 500
